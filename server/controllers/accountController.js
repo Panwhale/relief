@@ -95,8 +95,8 @@ accountController.checkLoginInfo = (req, res, next) => {
         id,
         username,
         email,
+        verified: true,
       };
-
       return next();
     }
     return next({

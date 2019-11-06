@@ -61,7 +61,9 @@ class App extends Component {
   render() {
     return (
       <div>
+        <div className="title">
         <h1>RELIEF</h1>
+        </div>
         <Filters filterStuff={this.state.filterState}/>
         <br />
         <br />
