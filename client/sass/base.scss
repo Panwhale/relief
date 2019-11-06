@@ -7,3 +7,54 @@
 html {
   font-size: 62.5%;
 }
+
+body {
+  font-size: 1.6rem;
+}
+
+.loginArea {
+  display: flex;
+  justify-content: center;
+  margin-top: 170px;
+  background-image: url("https://cdn4.vectorstock.com/i/thumb-large/07/43/colorful-up-hand-background-vector-1810743.jpg" );
+}
+.signin-box {
+padding: 50px 60px;
+background-color: white;
+width: 400px;
+position: relative;
+}
+
+.signin-title {
+margin-top: 05px;
+text-align: center;
+padding-bottom: 5px;
+font-style: italic;
+font-size: 12px;
+}
+
+.loginbtn {
+font-size: 12px !important;
+background: rgb(12, 46, 22);
+width: 100%;
+margin-left: auto !important;
+margin-right: auto;
+display: block;
+padding: 9px;
+color: rgb(242, 243, 239);
+text-transform: uppercase;
+border-radius: 2px;
+font-weight: 800;
+}
+
+.username, .password {
+width: 100%;
+margin-top: 10px;
+font-size: 12px;
+font-family: 'Work Sans', sans-serif;
+padding: 6px;
+box-sizing: border-box; /* add this */
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+border: 1px solid slategrey;
+}

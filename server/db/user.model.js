@@ -1,3 +1,14 @@
+/**
+ * ************************************
+ *
+ * @module  user.model.js
+ * @author Benjamin Morrison/Timothy Mai
+ * @date 11/5/19
+ * @description database queries for user table in database
+ *
+ * ************************************
+ */
+
 module.exports = {
   createTable: () => `
     create table if not exists user (
@@ -9,10 +20,9 @@ module.exports = {
     ) with (
         OIDS=FALSE
     )`, // create table if not exists
-  createUser: (username, password, email) => `
-    insert into user (username, password, email) values (${username}, ${password}, ${email});
-  `, // creates user on user table
-  readUser: (id) => `select * from user where id=${id}`, // gets user info
-  updateUser: (id, user) => `update user set username=${user.username}, password=${user.password}, email=${user.email} where id=${id}`, // change user info
-  deleteUser: (id) => `delete from user where id=${id}`, // delete user info
+  checkUsernameAndEmail: 'SELECT * FROM "user" WHERE username = $1 OR email = $2', // when signing up, check if username or email has been used already
+  createUser: 'INSERT INTO "user" (username, password, email) VALUES ($1, $2, $3) RETURNING username', // creates user on user table
+  getUser: 'SELECT * FROM "user" WHERE username = $1 AND password = $2', // gets user info
+  updateUser: '', // change user info
+  deleteUser: '', // delete user info
 };

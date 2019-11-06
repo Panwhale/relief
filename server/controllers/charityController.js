@@ -1,11 +1,13 @@
 const queryString = require('query-string');
+const { differenceBy } = require('lodash');
 const axios = require('axios');
-const relief = require('../db/index');
+const { query } = require('../db/index');
 const config = require('../config');
+const model = require('../db/charity.model');
 
-const charityAPI_endpoint = 'https://api.data.charitynavigator.org/v2/Organizations';
+const charityAPIEndpoint = 'https://api.data.charitynavigator.org/v2/Organizations';
 
-const query = {
+const charityQuery = {
   app_id: config.charityAPI_appId,
   app_key: config.charityAPI_appKey,
 };
@@ -33,34 +35,34 @@ charityController.getCharities = (req, res, next) => {
   if (!userQuery.zip) delete userQuery.zip;
   if (!userQuery.rating) delete userQuery.rating;
   if (!userQuery.cause) delete userQuery.cause;
-  const charityQuery = Object.assign(query, userQuery);
-  const stringified = queryString.stringify(charityQuery);
-  const api_call = charityAPI_endpoint + '?' + stringified;
+  const outputQuery = Object.assign(charityQuery, userQuery);
+  const stringified = queryString.stringify(outputQuery);
+  const apiCall = charityAPIEndpoint + '?' + stringified;
   (async () => {
     try {
-      const response = await axios(api_call);
+      const response = await axios(apiCall);
       const filterResponse = response.data.map((organization) => {
         const {
           ein, // unique id of charity
           charityName,
           websiteURL,
           mission,
-          currentRating,
-          category,
-          cause,
+          currentRating, // object
+          category, // object
           mailingAddress,
-          donationAddress,
         } = organization;
         return {
           ein, // unique id of charity
-          charityName,
-          websiteURL,
+          name: charityName,
+          website: websiteURL,
           mission,
-          currentRating,
-          category,
-          cause,
-          mailingAddress,
-          donationAddress,
+          rate: currentRating ? currentRating.score : '',
+          category: category ? category.categoryName : '',
+          cause: organization.cause ? organization.cause.causeName : '',
+          city: mailingAddress ? mailingAddress.city : '',
+          state: mailingAddress ? mailingAddress.stateOrProvince : '',
+          zip: mailingAddress ? mailingAddress.postalCode : '',
+          contact: 'Not provided',
         };
       });
       res.locals.charities = filterResponse;
@@ -69,59 +71,16 @@ charityController.getCharities = (req, res, next) => {
       return next(error);
     }
   })();
-  // relief.query({
-  //   text: 'select * from charity',
-  // }).then((data) => {
-  //   if (data.rowCount > 0) {
-  //     console.log(`Found ${data.rowCount} charity`);
-  //     res.locals.charities = [];
-  //     data.rows.forEach((row) => {
-  //       res.locals.charities.push({
-  //         id: row.id,
-  //         mission: row.mission,
-  //       });
-  //     });
-  //   } else {
-  //     console.log('No charity found');
-  //   }
-  //   next();
-  // }).catch((err) => {
-  //   next(err);
-  // });
 };
 
+// call api for detail info of charity with ein
 charityController.getCharity = (req, res, next) => {
   const { ein } = req.params;
   const stringified = queryString.stringify(query);
-  const apiCall = charityAPI_endpoint + '/' + ein + '?' + stringified;
+  const apiCall = charityAPIEndpoint + '/' + ein + '?' + stringified;
   (async () => {
     try {
       const response = await axios(apiCall);
-      console.log(response.data);
-      // const filterResponse = response.data.map((organization) => {
-      //   const {
-      //     ein, // unique id of charity
-      //     charityName,
-      //     websiteURL,
-      //     mission,
-      //     currentRating,
-      //     category,
-      //     cause,
-      //     mailingAddress,
-      //     donationAddress,
-      //   } = organization;
-      //   return {
-      //     ein, // unique id of charity
-      //     charityName,
-      //     websiteURL,
-      //     mission,
-      //     currentRating,
-      //     category,
-      //     cause,
-      //     mailingAddress,
-      //     donationAddress,
-      //   };
-      // });
       res.locals.charity = response.data;
       return next();
     } catch (error) {
@@ -129,4 +88,22 @@ charityController.getCharity = (req, res, next) => {
     }
   })();
 };
+
+// insert charity with unique ein to relief db
+charityController.saveCharity = (req, res, next) => {
+  (async () => {
+    try {
+      const response = await query(model.readCharity(), '');
+      // filter charities w/ unique ein from rows from db
+      const differentCharities = response.rows.length ? differenceBy(res.locals.charities, response.rows, 'ein') : res.locals.charities;
+      // console.log(differentCharities);
+      await query(model.createCharities(differentCharities), '');
+      return next();
+    } catch (error) {
+      console.log(error);
+      return next(error);
+    }
+  })();
+};
+
 module.exports = charityController;

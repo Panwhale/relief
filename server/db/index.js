@@ -1,3 +1,14 @@
+/**
+ * ************************************
+ *
+ * @module  server.js
+ * @author Benjamin Morrison/Timothy Mai
+ * @date 11/5/19
+ * @description creates pool instance that connects to PostGreSQL database
+ *
+ * ************************************
+ */
+
 const { Pool } = require('pg');
 
 // create a config to configure both pooling behavior and client options
@@ -49,10 +60,14 @@ pool.on('connect', (err, client) => {
 });
 
 // export the query method for passing queries to the pool
-module.exports.query = (text, values, callback) => pool.query(text, values, callback);
+module.exports.query = (text, values) => externalDB.query(text, values);
 
 // the pool also supports checking out a client for
 // multiple operations, such as a transaction
-module.exports.connect = (callback) => pool.connect(callback);
+module.exports.connect = (callback) => externalDB.connect(callback);
 
+// database has three tables:
+// user (columns: username, password, id, email)
+// charity (columns: a bunch of stuff)
+// donation (columns: id, user_id, charity_id)
 module.exports.pool = externalDB;

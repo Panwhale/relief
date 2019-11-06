@@ -3,7 +3,7 @@ const charityController = require('../controllers/charityController');
 
 const router = express.Router();
 
-router.post('/', charityController.getCharities, (req, res) => {
+router.post('/', charityController.getCharities, charityController.saveCharity, (req, res) => {
   res.status(200).json(res.locals.charities);
 });
 
