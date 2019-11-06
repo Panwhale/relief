@@ -45,7 +45,7 @@ charityController.getCharities = (req, res, next) => {
         const {
           ein, // unique id of charity
           charityName,
-          websiteURL,
+          charityNavigatorURL,
           mission,
           currentRating, // object
           category, // object
@@ -54,7 +54,7 @@ charityController.getCharities = (req, res, next) => {
         return {
           ein, // unique id of charity
           name: charityName,
-          website: websiteURL,
+          website: charityNavigatorURL,
           mission,
           rate: currentRating ? currentRating.score : '',
           category: category ? category.categoryName : '',

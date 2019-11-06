@@ -21,26 +21,6 @@ import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
-function createData(organizationName, cause, rating, website, contact, mission) {
-  return { organizationName, cause, rating, website, contact, mission };
-}
-
-const rows = [
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Donut', 452, 25.0, 51, 4.9),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Honeycomb', 408, 3.2, 87, 6.5),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Jelly Bean', 375, 0.0, 94, 0.0),
-  createData('KitKat', 518, 26.0, 65, 7.0),
-  createData('Lollipop', 392, 0.2, 98, 0.0),
-  createData('Marshmallow', 318, 0, 81, 2.0),
-  createData('Nougat', 360, 19.0, 9, 37.0),
-  createData('Oreo', 437, 18.0, 63, 4.0),
-];
-
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -68,9 +48,9 @@ function getSorting(order, orderBy) {
 const headCells = [
   { id: 'name', numeric: false, disablePadding: true, label: 'Organization Name' },
   { id: 'cause', numeric: true, disablePadding: false, label: 'Cause' },
-  { id: 'rating', numeric: true, disablePadding: false, label: 'Rating' },
+  { id: 'rate', numeric: true, disablePadding: false, label: 'Rating' },
   { id: 'website', numeric: true, disablePadding: false, label: 'Website' },
-  { id: 'contact', numeric: true, disablePadding: false, label: 'Contact' },
+  { id: 'ein', numeric: true, disablePadding: false, label: 'EIN' },
 ];
 
 function EnhancedTableHead(props) {
@@ -215,7 +195,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function ChairityList() {
+export default function CharityList(props) {
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
@@ -223,6 +203,9 @@ export default function ChairityList() {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [listData, setListData] = React.useState({
+    charityState: props.charityState
+  })
 
   const handleRequestSort = (event, property) => {
     const isDesc = orderBy === property && order === 'desc';
@@ -232,7 +215,7 @@ export default function ChairityList() {
 
   const handleSelectAllClick = event => {
     if (event.target.checked) {
-      const newSelecteds = rows.map(n => n.name);
+      const newSelecteds = props.rows.map(n => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -274,10 +257,14 @@ export default function ChairityList() {
 
   const isSelected = name => selected.indexOf(name) !== -1;
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.rows.length - page * rowsPerPage);
 
   return (
     <div className={classes.root}>
+
+      <p>
+        {listData.charityState}
+      </p>
       <Paper className={classes.paper}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <div className={classes.tableWrapper}>
@@ -294,10 +281,10 @@ export default function ChairityList() {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={props.rows.length}
             />
             <TableBody>
-              {stableSort(rows, getSorting(order, orderBy))
+              {stableSort(props.rows, getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.organizationName);
@@ -310,7 +297,7 @@ export default function ChairityList() {
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.organizationName}
+                      key={row.name}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -320,12 +307,12 @@ export default function ChairityList() {
                         />
                       </TableCell>
                       <TableCell component="th" id={labelId} scope="row" padding="none">
-                        {row.organizationName}
+                        {row.name}
                       </TableCell>
                       <TableCell align="right">{row.cause}</TableCell>
-                      <TableCell align="right">{row.rating}</TableCell>
+                      <TableCell align="right">{row.rate}</TableCell>
                       <TableCell align="right">{row.website}</TableCell>
-                      <TableCell align="right">{row.contact}</TableCell>
+                      <TableCell align="right">{row.ein}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -340,7 +327,7 @@ export default function ChairityList() {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={props.rows.length}
           rowsPerPage={rowsPerPage}
           page={page}
           backIconButtonProps={{
