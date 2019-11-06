@@ -1,24 +1,25 @@
-import React, { Component } from 'react';
-import { render } from 'react-dom';
+// import React, { Component } from 'react';
+// import { render } from 'react-dom';
 
-class Filters extends Component {
-
-
-  render() {
-    return (
-      <div>
-        Filters are showing!
-        Filter with zip code
-        Filter with 
-        <div>
-          {this.props.filterStuff}
-        </div>
-      </div>
-    )
-  }
-
-}
+// class Filters extends Component {
 
 
+//   render() {
+//     return (
+//       <div>
+//         <input value={this.props.zipCode} onChange={/>
+//         Filters are showing!
+//         Filter with zip code
+//         Filter with 
+//         <div>
+//           {this.props.zipCode}
+//         </div>
+//       </div>
+//     )
+//   }
 
-export default Filters;
+// }
+
+
+
+// export default Filters;
