@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    Redirect,
+  } from "react-router-dom";
 
 class Signup extends Component {
     constructor(props) {
@@ -7,6 +14,7 @@ class Signup extends Component {
         this.state = {
             username: "",
             password: "",
+            email: "",
             loggedIn: false,
         };
         this.updateData = this.updateData.bind(this);
@@ -14,38 +22,40 @@ class Signup extends Component {
 
     // post request to send user input to database
     updateData() {
-        const url = ('/signup');
+        const url = '/api/user/signup';
         const data = {
-            username: this.state.username,
-            password: this.state.password
+          username: this.state.username,
+          password: this.state.password,
+          email: this.state.email,
         };
-
+        const handleLoggedIn = (res) => {
+          console.log('handleLoggedIn', res)
+          this.setState({
+            loggedIn: res.loggedIn,
+          });
+        };
         fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json'
-            }
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json',
+          },
         })
-        .then(res => res.json())
-        .then(res => {
-            this.setState({
-                loggedIn: res.loggedIn,
-            });
-        }).catch(err => console.log(err));
-    };
-
-
-    // if the user has already signed up, then it will redirect to the homepage, else it will direct to the signup page
+          .then((res) => res.json())
+          .then((res) => handleLoggedIn.bind(this)(res))
+          .catch((err) => console.log(err));
+          console.log("here", data)
+      }
+    
     render() {
         let pages;
         if (this.state.loggedIn) {
-            return <Redirect to={{ pathname: '/homepage', state: { username: this.state.username, password: this.state.password } }} />
+            return <Redirect to={{ pathname: '/home', state: { username: this.state.username, password: this.state.password, email: this.state.email } }} />
         } else {
             pages =
                 <div className="signupArea">
                     <div className="login-container">
-                      <div className="login-header">Create An Account</div>
+                    <div className="signup-title"> <h2>“For it is in giving that we receive.”</h2></div>
                       <form action="/signup" className="userInfo">
                         <div className="text-field">
                           <input className="username" type="text" placeholder="username" onChange={e => { this.setState({ username: e.target.value }) }}></input>
@@ -53,13 +63,16 @@ class Signup extends Component {
                         <div className="text-field">
                           <input className="password" type="password" placeholder="password" onChange={e => { this.setState({ password: e.target.value }) }}></input>
                         </div>
+                        <div className="text-field">
+                          <input className="email" type="text" placeholder="email" onChange={e => { this.setState({ email: e.target.value }) }}></input>
+                        </div>
                         <br />
                           <button className="loginbtn" type="submit" value="createUser" onClick={e => { e.preventDefault(); this.updateData()}}>Sign Up</button>
                       </form>
                     </div>
                 </div>
         };
-        return <div>{pages}</div>
+        return <div> {pages} </div>
     };
 };
 

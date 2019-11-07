@@ -4,13 +4,14 @@
  * @module  api.js
  * @author Timothy Mai
  * @date 11/4/19
- * @description router for /api route
+ * @description router for /api/user/ route
  *
  * ************************************
  */
 
 const express = require('express');
 const accountController = require('../controllers/accountController');
+const cookieController = require('../controllers/cookieController');
 
 const router = express.Router();
 
@@ -30,7 +31,7 @@ router.post('/signup', accountController.checkSignUpInfo, accountController.crea
 });
 
 // route for sign in
-router.post('/signin', accountController.checkLoginInfo, (req, res) => {
+router.post('/signin', accountController.checkLoginInfo, cookieController.setCookie, (req, res) => {
   res.status(200).json(res.locals.user);
 });
 

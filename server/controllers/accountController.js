@@ -10,6 +10,7 @@
  * ************************************
  */
 
+ 
 const { pool } = require('../db/index');
 const queries = require('../db/user.model');
 
@@ -33,8 +34,6 @@ accountController.checkSignUpInfo = (req, res, next) => {
     if (result.rows.length > 0) {
       console.log('username or email has already been used');
 
-      // redirect back to sign up page
-      // return res.redirect('/signup');
       return next({
         message: 'username or email has already been used',
         status: 200,
@@ -83,22 +82,25 @@ accountController.checkLoginInfo = (req, res, next) => {
         status: 500,
       });
     }
+
     if (result.rows.length > 0) {
       console.log('logged in!');
       const {
         id,
-        username,
+        // username, // we already have username saved in the outer scope
         email,
       } = result.rows[0];
+
       res.locals.user = {
         id,
         username,
         email,
+        verified: true,
       };
       return next();
     }
     return next({
-      message: 'User not exists. Please sign up.',
+      message: 'Login unsuccessful. Please check your username or password.',
       status: 200,
     });
   });

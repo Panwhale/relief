@@ -7,6 +7,7 @@ import './sass/styles.scss';
 
 import Login from './components/Login';
 import App from './App';
+import Signup from './components/signup';
 
 
 render(
@@ -14,6 +15,7 @@ render(
     <Router>
       <Switch>
         <Route path="/" exact component={Login} />
+        <Route path="/signup" exact component={Signup} />
         <Route path="/home" component={App} />
       </Switch>
     </Router>

@@ -46,6 +46,13 @@ width: 400px;
 position: relative;
 }
 
+.login-container {
+padding: 50px 60px;
+background-color: white;
+width: 400px;
+position: relative;
+}
+
 .sign-up-link {
   width: 100%;
   font-size: 14px;
@@ -61,12 +68,6 @@ text-align: center;
 padding-bottom: 20px;
 font-style: italic;
 font-size: 12px;
-}
-
-.signup-title {
-margin-top: 10px;
-text-align: center;
-padding-bottom: 20px;
 font-style: italic;
 font-size: 12px;
 }
