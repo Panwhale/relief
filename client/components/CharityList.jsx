@@ -195,7 +195,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function CharityList(props) {
+export default function CharityList({ rows, zip, cause, rating }) {
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
@@ -203,9 +203,9 @@ export default function CharityList(props) {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [listData, setListData] = React.useState({
-    charityState: props.charityState
-  })
+  // const [listData, setListData] = React.useState({
+  //   charityState: charityState
+  // })
 
   const handleRequestSort = (event, property) => {
     const isDesc = orderBy === property && order === 'desc';
@@ -215,7 +215,7 @@ export default function CharityList(props) {
 
   const handleSelectAllClick = event => {
     if (event.target.checked) {
-      const newSelecteds = props.rows.map(n => n.name);
+      const newSelecteds = rows.map(n => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -257,13 +257,13 @@ export default function CharityList(props) {
 
   const isSelected = name => selected.indexOf(name) !== -1;
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.rows.length - page * rowsPerPage);
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   return (
     <div className={classes.root}>
 
       <p>
-        {listData.charityState}
+        {/* {listData.charityState} */}
       </p>
       <Paper className={classes.paper}>
         <EnhancedTableToolbar numSelected={selected.length} />
@@ -281,19 +281,19 @@ export default function CharityList(props) {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={props.rows.length}
+              rowCount={rows.length}
             />
             <TableBody>
-              {stableSort(props.rows, getSorting(order, orderBy))
+              {stableSort(rows, getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.organizationName);
+                  const isItemSelected = isSelected(row.name);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={event => handleClick(event, row.organizationName)}
+                      onClick={event => handleClick(event, row.name)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
@@ -327,7 +327,7 @@ export default function CharityList(props) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={props.rows.length}
+          count={rows.length}
           rowsPerPage={rowsPerPage}
           page={page}
           backIconButtonProps={{
