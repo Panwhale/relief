@@ -101,7 +101,8 @@ export default function Filters(props) {
     
     if (typeof zip === 'number') body.zip = zip;
     if (cause > 0) body.causeID = cause;
-    if (rating >= 1 || rating.length >= 1) body.minRating = rating; 
+    if (rating >= 1 || rating.length >= 1) body.minRating = rating;
+    console.log(body) 
 
     axios({
       method: 'POST',
@@ -111,7 +112,7 @@ export default function Filters(props) {
       .then(res => {
         setRows(res.data);
         console.log(res.data);
-        console.log(rows)
+        console.log('rows', rows)
       })
   }
 
@@ -165,7 +166,7 @@ export default function Filters(props) {
         </p>
 
       </div>
-      <div className="searchAndSave">
+      <div className="paramSearch">
         <FormControl className={classes.margin} onChange={handleChangeZip}>
         <InputLabel htmlFor="demo-customized-textbox">Search by Name</InputLabel>
         <BootstrapInput id="demo-customized-textbox" />

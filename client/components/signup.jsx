@@ -31,7 +31,7 @@ class Signup extends Component {
         const handleLoggedIn = (res) => {
           console.log('handleLoggedIn', res)
           this.setState({
-            loggedIn: res.loggedIn,
+            loggedIn: true,
           });
         };
         fetch(url, {

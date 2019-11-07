@@ -41,17 +41,20 @@ position: relative;
 
 .login-container {
 padding: 50px 60px;
-background-color: white;
+  background-image: url("https://image.freepik.com/free-vector/blue-abstract-acrylic-brush-stroke-textured-background_53876-86373.jpg");
+  background-size: 100%;
+  background: transparent;
+width: 400px;
 width: 400px;
 position: relative;
 }
 
-.login-container {
-padding: 50px 60px;
-background-color: white;
-width: 400px;
-position: relative;
-}
+// .login-container {
+// padding: 50px 60px;
+// background-color: white;
+// width: 400px;
+// position: relative;
+// }
 
 .sign-up-link {
   width: 100%;
@@ -100,9 +103,9 @@ border: 1px solid slategrey;
 .title {
   font-size: 20px;
   font-style: italic;
-  margin-top: 2%;
+  margin-top: 1%;
   text-align: center;
-  color: fuchsia;
+  color: #1F2326;
   
 }
 
