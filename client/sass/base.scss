@@ -10,25 +10,63 @@ html {
 
 body {
   font-size: 1.6rem;
+  background-image: url("https://image.freepik.com/free-vector/blue-abstract-acrylic-brush-stroke-textured-background_53876-86373.jpg");
+  background-size: 100%;
 }
 
 .loginArea {
   display: flex;
   justify-content: center;
-  margin-top: 170px;
+  margin-top: 200px;
   background-image: url("https://cdn4.vectorstock.com/i/thumb-large/07/43/colorful-up-hand-background-vector-1810743.jpg" );
 }
+
+.signupArea {
+  display: flex;
+  justify-content: center;
+  margin-top: 200px;
+  background-image: url("https://cdn4.vectorstock.com/i/thumb-large/07/43/colorful-up-hand-background-vector-1810743.jpg" );
+  margin-bottom: 10px;
+}
+
+
 .signin-box {
+padding: 50px 60px;
+  background-image: url("https://image.freepik.com/free-vector/blue-abstract-acrylic-brush-stroke-textured-background_53876-86373.jpg");
+  background-size: 100%;
+  background: transparent;
+width: 400px;
+position: relative;
+}
+
+.login-container {
 padding: 50px 60px;
 background-color: white;
 width: 400px;
 position: relative;
 }
 
+.sign-up-link {
+  width: 100%;
+  font-size: 14px;
+  font-family: 'Work Sans', sans-serif;
+  padding: 4px;
+  margin: 10px;
+  text-align: center;
+}
+
 .signin-title {
-margin-top: 05px;
+margin-top: 10px;
 text-align: center;
-padding-bottom: 5px;
+padding-bottom: 20px;
+font-style: italic;
+font-size: 12px;
+}
+
+.signup-title {
+margin-top: 10px;
+text-align: center;
+padding-bottom: 20px;
 font-style: italic;
 font-size: 12px;
 }
@@ -47,14 +85,39 @@ border-radius: 2px;
 font-weight: 800;
 }
 
-.username, .password {
+.username, .password, .email {
 width: 100%;
-margin-top: 10px;
-font-size: 12px;
+font-size: 14px;
 font-family: 'Work Sans', sans-serif;
-padding: 6px;
-box-sizing: border-box; /* add this */
+padding: 4px;
+box-sizing: border-box; 
 -webkit-box-sizing: border-box;
 -moz-box-sizing: border-box;
 border: 1px solid slategrey;
 }
+
+.title {
+  font-size: 20px;
+  font-style: italic;
+  margin-top: 2%;
+  text-align: center;
+  color: fuchsia;
+  
+}
+
+.paramSearch {
+  margin-left: 22.5%;
+}
+
+.searchAndSave {
+  margin-left: 22.5%;
+}
+
+.profile {
+  margin-left: 95%
+}
+
+#banana {
+  margin-left: 1.5%;
+}
+

@@ -18,8 +18,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import DeleteIcon from '@material-ui/icons/Delete';
+import SaveIcon from '@material-ui/icons/Save';
 import FilterListIcon from '@material-ui/icons/FilterList';
+import Button from '@material-ui/core/Button';
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -46,7 +47,7 @@ function getSorting(order, orderBy) {
 }
 
 const headCells = [
-  { id: 'name', numeric: false, disablePadding: true, label: 'Organization Name' },
+  { id: 'name', numeric: false, disablePadding: true, label: 'Name' },
   { id: 'cause', numeric: true, disablePadding: false, label: 'Cause' },
   { id: 'rate', numeric: true, disablePadding: false, label: 'Rating' },
   { id: 'website', numeric: true, disablePadding: false, label: 'Website' },
@@ -126,6 +127,10 @@ const useToolbarStyles = makeStyles(theme => ({
   },
 }));
 
+const handleSave = event => {
+  alert('Charity Saved')
+}
+
 const EnhancedTableToolbar = props => {
   const classes = useToolbarStyles();
   const { numSelected } = props;
@@ -147,9 +152,9 @@ const EnhancedTableToolbar = props => {
         )}
 
       {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton aria-label="delete">
-            <DeleteIcon />
+        <Tooltip title="Save">
+          <IconButton aria-label="save" onClick={e => handleSave(e)}>
+            <SaveIcon />
           </IconButton>
         </Tooltip>
       ) : (
@@ -169,15 +174,17 @@ EnhancedTableToolbar.propTypes = {
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: '100%',
+    width: '75%',
     marginTop: theme.spacing(3),
+    "margin-left": "22.5%",
   },
   paper: {
-    width: '100%',
+    width: '75%',
     marginBottom: theme.spacing(2),
   },
   table: {
-    minWidth: 750,
+    minWidth: '75%',
+    // "text-align": "center"
   },
   tableWrapper: {
     overflowX: 'auto',
@@ -201,7 +208,7 @@ export default function CharityList({ rows, zip, cause, rating }) {
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
+  const [dense, setDense] = React.useState(true);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   // const [listData, setListData] = React.useState({
   //   charityState: charityState
@@ -309,9 +316,13 @@ export default function CharityList({ rows, zip, cause, rating }) {
                       <TableCell component="th" id={labelId} scope="row" padding="none">
                         {row.name}
                       </TableCell>
-                      <TableCell align="right">{row.cause}</TableCell>
+                      <TableCell align="right">{row.category}</TableCell>
                       <TableCell align="right">{row.rate}</TableCell>
-                      <TableCell align="right">{row.website}</TableCell>
+                      <TableCell align="right">
+                        <Button variant="outlined" color="primary" onClick={e => window.open(row.website)}>
+                          Site
+                         </Button>
+                      </TableCell>
                       <TableCell align="right">{row.ein}</TableCell>
                     </TableRow>
                   );

@@ -9,6 +9,7 @@ import InputBase from "@material-ui/core/InputBase";
 import Button from '@material-ui/core/Button';
 
 import CharityList from './CharityList';
+// import './sass/styles.scss';
 
 import axios from 'axios';
 
@@ -20,6 +21,7 @@ const BootstrapInput = withStyles(theme => ({
   },
   // button: {
   //   margin: theme.spacing(1),
+  //   "margin-top": "6px"
   // },
   input: {
     borderRadius: 4,
@@ -58,9 +60,10 @@ const useStyles = makeStyles(theme => ({
 
 export default function Filters(props) {
   const classes = useStyles();
+  const [name, setName] = React.useState('');
   const [zip, setZip] = React.useState(props.defaultZip);
-  const [cause, setCause] = React.useState(props.defaultCause);
-  const [rating, setRating] = React.useState(props.defaultRating);
+  const [cause, setCause] = React.useState(props.defaultCauseID);
+  const [rating, setRating] = React.useState(props.defaultMinRating);
   const [rows, setRows] = React.useState(props.rows)
 
   useEffect(() => {
@@ -76,6 +79,9 @@ export default function Filters(props) {
     setRating(rating)
   }, [rating])
 
+  const handleChangeName = event => {
+    setName(event.target.value);
+  };
   const handleChangeZip = event => {
     setZip(event.target.value);
   };
@@ -88,11 +94,14 @@ export default function Filters(props) {
 
   const handleSubmit = event => {
     event.preventDefault();
-
     const body = {
-      casue: cause,
-      rating: rating,
+      // casueID: 1,
+      // rating: 4
     };
+    
+    if (typeof zip === 'number') body.zip = zip;
+    if (cause > 0) body.causeID = cause;
+    if (rating >= 1 || rating.length >= 1) body.minRating = rating; 
 
     axios({
       method: 'POST',
@@ -106,47 +115,71 @@ export default function Filters(props) {
       })
   }
 
+  const handleSaved = event => {
+
+  }
+
   return (
-    <div>
-      <FormControl className={classes.margin} onChange={handleChangeZip}>
-        <InputLabel htmlFor="demo-customized-textbox">Zipcode</InputLabel>
+    <div className="filters">
+      <div className="paramSearch">
+        <FormControl className={classes.margin} onChange={handleChangeZip}>
+          <InputLabel htmlFor="demo-customized-textbox">Zipcode</InputLabel>
+          <BootstrapInput id="demo-customized-textbox" />
+        </FormControl>
+        <FormControl className={classes.margin}>
+          <InputLabel id="demo-customized-select-label">Cause</InputLabel>
+          <Select
+            labelId="demo-customized-select-label"
+            id="demo-customized-select"
+            value={cause}
+            onChange={handleChangeCause}
+            input={<BootstrapInput />}
+          >
+            {/* <MenuItem value="Cause">
+            <em>Cause</em>
+          </MenuItem> */}
+            <MenuItem value={0}>Cause</MenuItem>
+            <MenuItem value={1}>Animals</MenuItem>
+            <MenuItem value={4}>Performing Arts</MenuItem>
+            <MenuItem value={10}>Nature Centers</MenuItem>
+            <MenuItem value={13}>Diseases</MenuItem>
+            <MenuItem value={15}>Human Service</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl className={classes.margin}>
+          <InputLabel htmlFor="demo-customized-select-native">Rating</InputLabel>
+          <NativeSelect
+            id="demo-customized-select-native"
+            value={rating}
+            onChange={handleChangeRating}
+            input={<BootstrapInput />}
+          >
+            <option value={4}>> 90</option>
+            <option value={3}>> 80</option>
+          </NativeSelect>
+        </FormControl>
+        <p id="banana">
+        <Button variant="outlined" color="primary" style={{"marignTop": "10px"}} onClick={e => handleSubmit(e)}>
+          Submit
+        </Button>
+        </p>
+
+      </div>
+      <div className="searchAndSave">
+        <FormControl className={classes.margin} onChange={handleChangeZip}>
+        <InputLabel htmlFor="demo-customized-textbox">Search by Name</InputLabel>
         <BootstrapInput id="demo-customized-textbox" />
       </FormControl>
-      <FormControl className={classes.margin}>
-        <InputLabel id="demo-customized-select-label">Cause</InputLabel>
-        <Select
-          labelId="demo-customized-select-label"
-          id="demo-customized-select"
-          value={cause}
-          onChange={handleChangeCause}
-          input={<BootstrapInput />}
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={1}>One</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
-        </Select>
-      </FormControl>
-      <FormControl className={classes.margin}>
-        <InputLabel htmlFor="demo-customized-select-native">Rating</InputLabel>
-        <NativeSelect
-          id="demo-customized-select-native"
-          value={rating}
-          onChange={handleChangeRating}
-          input={<BootstrapInput />}
-        >
-          {/* <option value="Rating" /> */}
-          <option value={4}>Four</option>
-          <option value={3}>Three</option>
-          <option value={2}>Two</option>
-          <option value={1}>One</option>
-        </NativeSelect>
-      </FormControl>
-      <Button variant="outlined" color="primary" onClick={e => handleSubmit(e)}>
-        Submit
-      </Button>
+      <p id="banana">
+        <Button variant="outlined" color="primary" onClick={e => handleSubmit(e)}>
+          Search
+        </Button>
+
+        <Button variant="outlined" color="primary" onClick={e => handleSaved(e)}>
+          Saved
+        </Button>
+        </p>
+      </div>
       <CharityList rows={rows} zip={zip} cause={cause} rating={rating}/>
     </div>
   );
