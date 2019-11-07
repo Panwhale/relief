@@ -65,7 +65,7 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, () => {
   console.log(`App listening on PORT ${PORT}`);
-  apollo.listen().then(({ url }) => {
-    console.log(`Apollo server running ${url}`);
-  });
+  // apollo.listen().then(({ url }) => {
+  //   console.log(`Apollo server running ${url}`);
+  // });
 });

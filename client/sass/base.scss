@@ -10,6 +10,8 @@ html {
 
 body {
   font-size: 1.6rem;
+  background-image: url("https://image.freepik.com/free-vector/blue-abstract-acrylic-brush-stroke-textured-background_53876-86373.jpg");
+  background-size: 100%;
 }
 
 .loginArea {
@@ -29,6 +31,15 @@ body {
 
 
 .signin-box {
+padding: 50px 60px;
+  background-image: url("https://image.freepik.com/free-vector/blue-abstract-acrylic-brush-stroke-textured-background_53876-86373.jpg");
+  background-size: 100%;
+  background: transparent;
+width: 400px;
+position: relative;
+}
+
+.login-container {
 padding: 50px 60px;
 background-color: white;
 width: 400px;
@@ -57,12 +68,6 @@ text-align: center;
 padding-bottom: 20px;
 font-style: italic;
 font-size: 12px;
-}
-
-.signup-title {
-margin-top: 10px;
-text-align: center;
-padding-bottom: 20px;
 font-style: italic;
 font-size: 12px;
 }
@@ -95,8 +100,25 @@ border: 1px solid slategrey;
 .title {
   font-size: 20px;
   font-style: italic;
-  margin-top: 50px;
+  margin-top: 2%;
   text-align: center;
   color: fuchsia;
   
 }
+
+.paramSearch {
+  margin-left: 22.5%;
+}
+
+.searchAndSave {
+  margin-left: 22.5%;
+}
+
+.profile {
+  margin-left: 95%
+}
+
+#banana {
+  margin-left: 1.5%;
+}
+
