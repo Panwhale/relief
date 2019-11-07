@@ -13,12 +13,13 @@ class Login extends Component {
   }
 
   updateData() {
-    const url = '/api/signIn';
+    const url = '/api/user/signin';
     const data = {
       username: this.state.username,
       password: this.state.password,
     };
     const handleVerified = (res) => {
+      console.log('handle verified!');
       this.setState({
         verified: res.verified,
       });

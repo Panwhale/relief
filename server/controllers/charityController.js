@@ -24,20 +24,21 @@ const charityController = {};
 charityController.getCharities = (req, res, next) => {
   const {
     zip,
-    cause,
-    rating,
+    causeID,
+    minRating,
   } = req.body;
   const userQuery = {
     zip,
-    rating,
-    cause,
+    minRating,
+    causeID,
   };
   if (!userQuery.zip) delete userQuery.zip;
-  if (!userQuery.rating) delete userQuery.rating;
-  if (!userQuery.cause) delete userQuery.cause;
+  if (!userQuery.minRating) delete userQuery.minRating;
+  if (!userQuery.causeID) delete userQuery.causeID;
   const outputQuery = Object.assign(charityQuery, userQuery);
   const stringified = queryString.stringify(outputQuery);
   const apiCall = charityAPIEndpoint + '?' + stringified;
+  console.log(apiCall);
   (async () => {
     try {
       const response = await axios(apiCall);
@@ -91,6 +92,7 @@ charityController.getCharity = (req, res, next) => {
 
 // insert charity with unique ein to relief db
 charityController.saveCharity = (req, res, next) => {
+  console.log(res.locals.charities);
   (async () => {
     try {
       const response = await query(model.readCharity(), '');

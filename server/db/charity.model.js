@@ -16,6 +16,30 @@ const createCharity = (charity) => {
   return query;
 };
 
+// sql query string for reading charity by column
+const readCharityBy = (column) => {
+  let query = 'select * from "charity" order by ';
+  switch (column) {
+    case 'name':
+      query += 'name DESC;';
+      break;
+    case 'category':
+      query += 'category DESC;';
+      break;
+    case 'rate':
+      query += 'rate DESC;';
+      break;
+    default:
+      break;
+  }
+};
+
+// sql query string for reading charity by ein
+const readCharityByEin = (ein) => {
+  let query = `select * from "charity" where ein=${ein};`;
+  return query;
+};
+
 module.exports = {
   createTable: () => ``, // creates charity table if not exists
   createCharity: (charity) => createCharity(charity), // create charity table
