@@ -95,13 +95,13 @@ export default function Filters(props) {
   const handleSubmit = event => {
     event.preventDefault();
     const body = {
-      // casueID: 1,
-      // rating: 4
+      causeID: 1,
+      rating: 4
     };
     
-    if (typeof zip === 'number') body.zip = zip;
-    if (cause > 0) body.causeID = cause;
-    if (rating >= 1 || rating.length >= 1) body.minRating = rating;
+    // if (typeof zip === 'number') body.zip = zip;
+    // // body.causeID = 1;
+    // if (rating >= 1 || rating.length >= 1) body.minRating = rating;
     console.log(body) 
 
     axios({
