@@ -62,16 +62,18 @@ class Login extends Component {
                   <div className="text-field">
                     <input className="password" type="password" placeholder="password" onChange={e => { this.setState({ password: e.target.value }) }}></input>
                   </div>
-                  <div className="text-field">
+                  {/* <div className="text-field">
                     <input className="email" type="text" placeholder="email" onChange={e => { this.setState({ email: e.target.value }) }}></input>
-                  </div>
+                  </div> */}
                   <br />
-                    <button className="loginbtn" type="submit" onClick={e => {
-                            e.preventDefault(); this.updateData();
-                        }}>Log In</button>
-                       <div className="sign-up-link">
-                          <Link to="./signup">Sign Up</Link>
+                    <button className="loginbtn" type="submit" onClick={e => {e.preventDefault(); this.updateData()}}>
+                      Log In
+                    </button>
+                    <button className="loginbtn" type="submit">
+                      <div>
+                        <Link to="./signup">Sign Up</Link>
                       </div>
+                    </button>
                 </form>
               </div>
           </div>

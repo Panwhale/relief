@@ -5,6 +5,14 @@ import axios from 'axios';
 import Filters from './components/Filters';
 import Logout from './components/Logout'
 
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from "react-router-dom";
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -1321,7 +1329,10 @@ class App extends Component {
     return (
       <div className="mainContainer">
         <div className="profile">
-          <Logout />
+          {/* <Logout /> */}
+          {/* <div className="sign-up-link"> */}
+            <Link to="./">Log Out</Link>
+          {/* </div> */}
         </div>
         <div className="title">
           <h1>RELIEF</h1>
