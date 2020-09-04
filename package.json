@@ -34,7 +34,7 @@
     "express": "^4.17.1",
     "graphql": "^14.5.8",
     "lodash": "^4.17.15",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.13.1",
     "pg": "^7.12.1",
     "prop-types": "^15.7.2",
     "query-string": "^6.8.3",
